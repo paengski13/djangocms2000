@@ -57,6 +57,7 @@ class Block(ContentModel):
 
     class Meta:
         unique_together = ('content_type', 'object_id', 'language', 'label')
+        app_label = 'cms'
 
     def display_content(self):
         '''Returns content, marked safe if necessary'''
