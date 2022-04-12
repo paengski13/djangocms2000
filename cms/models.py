@@ -20,6 +20,7 @@ class ContentModel(models.Model):
     class Meta:
         abstract = True
         unique_together = ('content_type', 'object_id', 'label')
+        app_label = 'cms'
 
     content_type = models.CharField(max_length=190)
     object_id = models.PositiveIntegerField()
@@ -176,6 +177,9 @@ class _CMSAbstractBaseModel(models.Model):
 
 
 class PageManager(models.Manager):
+    class Meta:
+        app_label = 'cms'
+
     def get_for_url(self, url):
         try:
             return self.get(sites__site_id=settings.SITE_ID, url=url)
@@ -207,6 +211,7 @@ class Page(_CMSAbstractBaseModel):
 
     class Meta:
         ordering = ('url',)
+        app_label = 'cms'
 
     def get_children(self, qs=None):
         return get_child_pages(self.url, qs)
@@ -232,6 +237,7 @@ class PageSite(models.Model):
 
     class Meta:
         unique_together = ('page', 'site_id')
+        app_label = 'cms'
 
     def clean(self):
         others = PageSite.objects.exclude(pk=self.pk)
@@ -253,6 +259,7 @@ class CMSBaseModel(_CMSAbstractBaseModel):
 
     class Meta:
         abstract = True
+        app_label = 'cms'
 
 
 def add_blocks(sender, **kwargs):
