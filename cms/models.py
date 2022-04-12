@@ -79,6 +79,9 @@ class Image(ContentModel):
     file = models.ImageField(upload_to=cms_settings.UPLOAD_PATH, blank=True)
     description = models.CharField(max_length=255, blank=True)
 
+    class Meta:
+        app_label = 'cms'
+
 
 def get_file_type(path):
     ext = os.path.splitext(path)[1]
@@ -99,6 +102,9 @@ def validate_video_type(value):
 class Video(ContentModel):
     source = models.FileField(upload_to=cms_settings.UPLOAD_PATH,
                               validators=[validate_video_type], blank=True)
+
+    class Meta:
+            app_label = 'cms'
 
     @property
     def type(self):
@@ -155,6 +161,7 @@ def get_child_pages(parent_url, qs=None):
 class _CMSAbstractBaseModel(models.Model):
     class Meta:
         abstract = True
+        app_label = 'cms'
 
     # blocks = GenericRelation(Block)
     # images = GenericRelation(Image)
